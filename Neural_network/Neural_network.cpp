@@ -1,21 +1,51 @@
-﻿// Neural_network.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
+#include <vector>
+#include <stdlib.h>
+#include <cmath>
 
-int main()
-{
-    std::cout << "Hello World!\n"; 
+using namespace std;
+double lf(double x) {
+	return 1 / 1 + pow(2.71828182845904523536, -x);
 }
+class NEURALNET {
+private:
+	vector<vector<double>> whide;
+	vector<vector<double>> wout;
+	int in, hi, ou;
+public:
+	NEURALNET(int inp,int out,int hide) {
+		in = inp;
+		ou = out;
+		hi = hide;
+		for (int in = 0;in < inp;in++)
+			for (int hi = 0; hi < hide;hi++)
+				whide[in][hi] = cos(rand() % 180);
+		for (int hi = 0; hi < hide;hi++)
+			for (int ou = 0; ou < out;ou++)
+				wout[hi][ou] = cos(rand() % 180);
+	}
+	vector<double> work(vector<double>inp) {
+		vector<double> hide;
+		for (int i = 0;i < hi;i++) {
+			int add;
+			for (int k = 0;k < in;k++)
+				add += inp[k] * whide[k][i];
+			hide.push_back(lf(add));
+		}
+		vector<double> out;
+		for (int i = 0;i < ou;i++) {
+			int add;
+			for (int k = 0;k < in;k++)
+				add += hide[k] * wout[k][i];
+			out.push_back(lf(add));
+			return out;
+		}
+	}
+};
 
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
+int main() {
+	return 0;
+}
+	
 
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
